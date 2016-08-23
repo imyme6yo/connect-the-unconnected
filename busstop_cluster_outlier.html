@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Busstop</title>
+    <style>
+      html, body, #map-canvas {
+        height: 100%;
+        margin: 0px;
+        padding: 0px
+      }
+      #panel {
+        position: absolute;
+        top: 5px;
+        left: 50%;
+        margin-left: -180px;
+        z-index: 5;
+        background-color: #fff;
+        padding: 5px;
+        border: 1px solid #999;
+      }
+    </style>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
+    <script>
+    var seoul = new google.maps.LatLng(37.54694, 126.978152);
+    var busstops = [new google.maps.LatLng(37.4484091313, 126.451198893),
+new google.maps.LatLng(37.4485185872, 126.451385642),
+new google.maps.LatLng(37.503653393, 126.771759592),
+new google.maps.LatLng(37.4927144636, 126.75498999),
+new google.maps.LatLng(37.224970699, 127.102866344),
+new google.maps.LatLng(37.1777331913, 127.095774633),
+new google.maps.LatLng(37.1777024397, 127.096217805),
+new google.maps.LatLng(37.224835536, 127.103319347),
+new google.maps.LatLng(37.2697681979, 127.104039818),
+new google.maps.LatLng(37.2960647752, 127.103904194),
+new google.maps.LatLng(37.2960509448, 127.103489793),
+new google.maps.LatLng(37.269719489, 127.103625331)];
+
+    var chargers =[];
+
+    var markers = [];
+    var iterator = 0;
+    var map;
+    function initialize() {
+        var mapOptions = {
+            zoom: 11,
+            center: seoul
+        };
+        map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+        
+    }
+    function drop() {
+      for (var i = 0; i < busstops.length; i++) {
+        setTimeout(function() {
+          addMarker();
+        }, i * 200);
+      }
+    }
+    function addMarker() {
+      markers.push(new google.maps.Marker({
+        position: busstops[iterator],
+        map: map,
+        draggable: false,
+        animation: google.maps.Animation.DROP
+      }));
+      iterator++;
+    }
+    
+    google.maps.event.addDomListener(window, 'load', initialize);
+    </script>
+    </head>
+    <body>
+        <div id="panel" style="margin-left: -52px">
+        <button id="drop" onclick="drop()">Guess what?</button>
+        </div>
+        <div id="map-canvas"></div>
+    </body>
+</html>
